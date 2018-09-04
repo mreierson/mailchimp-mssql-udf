@@ -42,21 +42,21 @@ This project maps MailChimp's API as a set of MS SQL Server user-defined functio
 ` `  
 `  SELECT @listid = id `  
 `  FROM dbo.mcsql_clr_lists_list(@apikey) WHERE name=@listname;`  
-``  
+` `    
 `  SELECT * INTO #MembersToUpdate`  
 `  FROM dbo.mcsql_clr_lists_members(@apikey, @listid, default) members`  
 `  JOIN MyDatabaseTable ON members.Email = MyDatabaseTable.Email;`  
-` `
+` `  
 `  WHILE EXISTS (SELECT * FROM #MembersToUpdate)`  
 `  BEGIN`  
 `    DECLARE @member_email nvarchar(255);`  
 `    DECLARE @merge_var_value nvarchar(255);`  
-` `
+` `  
 `    SELECT TOP 1`  
 `    @member_email = email,`  
 `    @merge_var_value = my_value_column`  
 `    FROM #MembersToUpdate;`  
-` `  
+` `    
 `    EXEC dbo.mcsql_lists_member_merge_var_set @apikey, @listid, `  
 `    @email = @member_email, @tag = 'FAV_COLOR', `  
 `    @value = @merge_var_value;`  
